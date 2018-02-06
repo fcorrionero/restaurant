@@ -31,13 +31,8 @@ class RestaurantService
       return $this->setError('El plato ya existe');
     }
 
-    $now = new \DateTime();
-    $dish = new Dish();
-    $dish->setName($dishName);
-    $dish->setCreatedAt($now);
-    if(isset($data->ingredients)){
-      $dish = $this->addIngredientsToDish($dish,$data->ingredients);
-    }
+    $dish = $this->configureDish($data, $dishName);
+
     $this->entityManager->persist($dish);
     $this->entityManager->flush();
     return [
@@ -58,13 +53,8 @@ class RestaurantService
       return $this->setError('El ingrediente ya existe');
     }
 
-    $now = new \DateTime();
-    $ingredient = new Ingredient();
-    $ingredient->setCreatedAt($now);
-    $ingredient->setName($ingredientName);
-    if(isset($data->allergens)) {
-      $ingredient = $this->addAllergenToIngredient($ingredient,$data->allergens);
-    }
+    $ingredient = $this->configureIngredient($data, $ingredientName);
+
     $this->entityManager->persist($ingredient);
     $this->entityManager->flush();
     return [
@@ -81,10 +71,7 @@ class RestaurantService
       return $this->setError('El ingrediente ya existe');
     }
 
-    $now = new \DateTime();
-    $allergen = new Allergen();
-    $allergen->setCreatedAt($now);
-    $allergen->setName($allergenName);
+    $allergen = $this->configureAllergen($allergenName);
     $this->entityManager->persist($allergen);
     $this->entityManager->flush();
     return [
@@ -200,6 +187,53 @@ class RestaurantService
       return true;
     }
     return false;
+  }
+
+  /**
+   * @param \stdClass $data
+   * @param string $dishName
+   * @return Dish
+   */
+  protected function configureDish($data, $dishName)
+  {
+    $now = new \DateTime();
+    $dish = new Dish();
+    $dish->setName($dishName);
+    $dish->setCreatedAt($now);
+    if (isset($data->ingredients)) {
+      $dish = $this->addIngredientsToDish($dish, $data->ingredients);
+    }
+    return $dish;
+  }
+
+  /**
+   * @param \stdClass $data
+   * @param string $ingredientName
+   * @return Ingredient
+   */
+  protected function configureIngredient($data, $ingredientName)
+  {
+    $now = new \DateTime();
+    $ingredient = new Ingredient();
+    $ingredient->setCreatedAt($now);
+    $ingredient->setName($ingredientName);
+    if (isset($data->allergens)) {
+      $ingredient = $this->addAllergenToIngredient($ingredient, $data->allergens);
+    }
+    return $ingredient;
+  }
+
+  /**
+   * @param string $allergenName
+   * @return Allergen
+   */
+  protected function configureAllergen($allergenName)
+  {
+    $now = new \DateTime();
+    $allergen = new Allergen();
+    $allergen->setCreatedAt($now);
+    $allergen->setName($allergenName);
+    return $allergen;
   }
 
 }
