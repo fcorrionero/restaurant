@@ -22,6 +22,7 @@ class DishRepository extends EntityRepository
         $qb->expr()->like('d.name',':name')
       )
       ->setParameter('name','%'.$dishname.'%')
+      ->distinct()
       ->getQuery()
       ->getResult();
   }

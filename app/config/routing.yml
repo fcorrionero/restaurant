@@ -14,6 +14,16 @@ app_dishes:
   defaults: { _controller: AppBundle:Api:dishesByAllergen, allergen: '-' }
 
 app_create_dish:
-  path: /dishes/new
+  path: /dish/new
   methods: POST
   defaults: { _controller: AppBundle:Api:createDish }
+
+app_create_ingredient:
+  path: /ingredient/new
+  methods: POST
+  defaults: { _controller: AppBundle:Api:createIngredient }
+
+app_create_allergen:
+  path: /allergen/new
+  methods: POST
+  defaults: { _controller: AppBundle:Api:createAllergen }

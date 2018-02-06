@@ -22,6 +22,7 @@ class AllergenRepository  extends EntityRepository
         $qb->expr()->like('a.name',':name')
       )
       ->setParameter('name','%'.$allergen.'%')
+      ->distinct()
       ->getQuery()
       ->getResult();
   }

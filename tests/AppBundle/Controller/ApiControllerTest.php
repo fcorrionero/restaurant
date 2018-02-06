@@ -14,16 +14,79 @@ class ApiControllerTest extends WebTestCase
     $this->client = static::createClient();
   }
 
-  public function testAllergensByPlateResponse()
+  /**
+   * @dataProvider urlGETProvider
+   */
+  public function testPageIsSuccessful($url)
   {
-    $crawler = $this->client->request('GET', '/allergens');
-    $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+    $this->client->request('GET', $url);
+
+    $this->assertTrue($this->client->getResponse()->isSuccessful());
   }
 
-  public function testDishesByAllergenResponse()
+  /**
+   * @dataProvider urlPOSTProvider
+   */
+  public function testPostMethodAreSuccessful($url)
   {
-    $crawler = $this->client->request('GET', '/dishes');
-    $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+    $this->client->request('POST', $url);
+    $this->assertTrue($this->client->getResponse()->isSuccessful());
+  }
+
+  public function urlGETProvider()
+  {
+    yield ['/'];
+    yield ['/allergens'];
+    yield ['/dishes'];
+  }
+
+  public function urlPOSTProvider()
+  {
+    yield ['/dish/new'];
+    yield ['/ingredient/new'];
+    yield ['/allergen/new'];
+  }
+
+  public function testNewDish()
+  {
+    $json = '{"name":"Arroz con lentejas", "ingredients": [{"name": "lentejas"},{"name": "cebolla"},{"name": "arroz"}]}';
+    $this->client->request(
+      'POST',
+      '/dish/new',
+      [],
+      [],
+      ['CONTENT_TYPE' => 'application/json'],
+      $json
+    );
+    $this->assertContains('status', $this->client->getResponse()->getContent());
+  }
+
+  public function testNewIngredient()
+  {
+    $json = '{"name":"almendras","allergens":[{"name":"frutos secos"}]}';
+    $this->client->request(
+      'POST',
+      '/ingredient/new',
+      [],
+      [],
+      ['CONTENT_TYPE' => 'application/json'],
+      $json
+    );
+    $this->assertContains('status', $this->client->getResponse()->getContent());
+  }
+
+  public function testNewAllergen()
+  {
+    $json = '{"name":"huevo"}';
+    $this->client->request(
+      'POST',
+      '/allergen/new',
+      [],
+      [],
+      ['CONTENT_TYPE' => 'application/json'],
+      $json
+    );
+    $this->assertContains('status', $this->client->getResponse()->getContent());
   }
 
 }
