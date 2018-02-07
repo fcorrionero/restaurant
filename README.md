@@ -1,6 +1,9 @@
 Restaurante
 ==========
 
+### Registro de cambios sobre los platos
+Para el registro de cambios he usado el sistema de eventos que proporciona Symfony. Al modificar un plato se lanza un evento `dish.modified` que es recogido por la clase DishSubscriber.  El registro de los cambios se guarda en una tabla de log con los ids de los ingredientes añadidos y/o borrados del plato.
+
 ## Lista de peticiones a la API
 Petición | Ejemplo | Respuesta
 ------------ | ------------- | ------------- 
