@@ -92,7 +92,7 @@ class ApiController extends Controller
     // Logic to get old dish data and change it
     // ...
     // Dish $oldDish, Dish $newDish
-    // Dispatch evento to event listener
+    // Dispatch event to event listener
     // $event = new DishModifiedEvent($oldDish,$newDish)
     // $dispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
     // $dispatcher->dispatch(DishModifiedEvent::NAME, $event)

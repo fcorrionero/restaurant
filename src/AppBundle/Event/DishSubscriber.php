@@ -43,16 +43,16 @@ class DishSubscriber implements EventSubscriberInterface
     $diff = array_diff($ingredients1->toArray(), $ingredients2->toArray());
 
     $ingredients = new ArrayCollection($diff);
-    return $this->getIngredientsNames($ingredients);
+    return $this->getIngredientsIds($ingredients);
   }
 
-  protected function getIngredientsNames(ArrayCollection $ingredients)
+  protected function getIngredientsIds(ArrayCollection $ingredients)
   {
-    $names = [];
+    $ids = [];
     foreach($ingredients as $ingredient){
-      $names[] = $ingredient->getName();
+      $ids[] = $ingredient->getId();
     }
-    return json_encode($names);
+    return json_encode($ids);
   }
 
   protected function addLogEntry(DishModifiedEvent $event, $deletedIngredients, $addedIngredients)
