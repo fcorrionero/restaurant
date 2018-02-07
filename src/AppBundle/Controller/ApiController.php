@@ -6,6 +6,7 @@ use AppBundle\Service\RestaurantService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+// use AppBundle\Event\DishModifiedEvent;
 
 class ApiController extends Controller
 {
@@ -84,6 +85,17 @@ class ApiController extends Controller
     }
 
     return new JsonResponse($response);
+  }
+
+  public function modifyDishAction(Request $request)
+  {
+    // Logic to get old dish data and change it
+    // ...
+    // Dish $oldDish, Dish $newDish
+    // Dispatch evento to event listener
+    // $event = new DishModifiedEvent($oldDish,$newDish)
+    // $dispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
+    // $dispatcher->dispatch(DishModifiedEvent::NAME, $event)
   }
 
 }
