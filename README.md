@@ -18,6 +18,9 @@ de la base de datos y dos repositorios para ejecutar operaciones específicas so
 Para el registro de cambios he usado el sistema de eventos que proporciona Symfony. Al modificar un plato se lanza un evento `dish.modified` que es recogido por la clase DishSubscriber.  El registro de los cambios se guarda en una tabla de log con los ids de los ingredientes añadidos y/o borrados del plato.
 
 ### Lista de peticiones a la API
+Para las consultas sobre un plato/alérgeno he empleado los nombres en lugar de los ids por comodidad a la hora de hacer las pruebas,
+en una aplicación real habría que emplear los ids de los platos/alérgenos que nos proporcionase la aplicación de los camareros.
+
 Petición | Ejemplo | Respuesta
 ------------ | ------------- | ------------- 
 /allergens/{dish} | /allergens/Macarrones | ```[{"id":1,"name":"gluten"},{"id":2,"name":"lactosa"}]```
