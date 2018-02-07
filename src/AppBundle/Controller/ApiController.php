@@ -15,12 +15,9 @@ class ApiController extends Controller
    * @param string $dish
    * @return JsonResponse
    */
-  public function allergensByDishAction($dish)
+  public function allergensByDishAction($dish, RestaurantService $restaurantService)
   {
-    $allergens = null;
-    if( null != $dish){
-      $allergens = $this->getDoctrine()->getRepository('AppBundle:Dish')->findAllergensByDishName($dish);
-    }
+    $allergens = $restaurantService->getAllergensByDishName($dish);
     return new JsonResponse($allergens);
   }
 
@@ -28,12 +25,9 @@ class ApiController extends Controller
    * @param string $allergen
    * @return JsonResponse
    */
-  public function dishesByAllergenAction($allergen)
+  public function dishesByAllergenAction($allergen, RestaurantService $restaurantService)
   {
-    $dishes = null;
-    if( null != $allergen ){
-      $dishes = $this->getDoctrine()->getRepository('AppBundle:Allergen')->findAllDishesByAllergen($allergen);
-    }
+    $dishes = $restaurantService->getDishesByAllergenName($allergen);
     return new JsonResponse($dishes);
   }
 

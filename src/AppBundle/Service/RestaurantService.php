@@ -190,6 +190,32 @@ class RestaurantService
   }
 
   /**
+   * @param string $dish
+   * @return mixed
+   */
+  public function getAllergensByDishName($dish)
+  {
+    $allergens = null;
+    if( null != $dish){
+      $allergens = $this->entityManager->getRepository('AppBundle:Dish')->findAllergensByDishName($dish);
+    }
+    return $allergens;
+  }
+
+  /**
+   * @param $allergen
+   * @return mixed
+   */
+  public function getDishesByAllergenName($allergen)
+  {
+    $dishes = null;
+    if( null != $allergen ){
+      $dishes = $this->entityManager->getRepository('AppBundle:Allergen')->findAllDishesByAllergen($allergen);
+    }
+    return $dishes;
+  }
+
+  /**
    * @param Dish $dish
    * @param \stdClass $ingredients
    * @return Dish
