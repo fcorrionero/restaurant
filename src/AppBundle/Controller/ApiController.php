@@ -45,7 +45,7 @@ class ApiController extends Controller
   public function createDishAction(Request $request, RestaurantService $restaurantService)
   {
     $data = json_decode($request->getContent());
-    if(null != $data && isset($data->name)){
+    if(null != $data && json_last_error() === JSON_ERROR_NONE && isset($data->name)){
       $response = $restaurantService->addDish($data);
     }else{
       $response = $restaurantService->setError('Debe proporcionar un nombre para el plato');
@@ -61,7 +61,7 @@ class ApiController extends Controller
   public function createIngredientAction(Request $request, RestaurantService $restaurantService)
   {
     $data = json_decode($request->getContent());
-    if(null != $data && isset($data->name)){
+    if(null != $data && json_last_error() === JSON_ERROR_NONE && isset($data->name)){
       $response = $restaurantService->addIngredient($data);
     }else{
       $response = $restaurantService->setError('Debe proporcionar un nombre para el ingrediente');
@@ -78,7 +78,7 @@ class ApiController extends Controller
   public function createAllergenAction(Request $request, RestaurantService $restaurantService)
   {
     $data = json_decode($request->getContent());
-    if(null != $data && isset($data->name)){
+    if(null != $data && json_last_error() === JSON_ERROR_NONE && isset($data->name)){
       $response = $restaurantService->addAllergen($data);
     }else{
       $response = $restaurantService->setError('Debe proporcionar un nombre para el ingrediente');
