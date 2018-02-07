@@ -64,6 +64,10 @@ class RestaurantService
     ];
   }
 
+  /**
+   * @param \stdClass $data
+   * @return array
+   */
   public function addAllergen($data)
   {
     $allergenName = $data->name;
@@ -94,54 +98,50 @@ class RestaurantService
   }
 
   /**
-   * @param Dish $dish
-   * @param \stdClass $ingredients
+   * @param \stdClass $data
+   * @param string $dishName
    * @return Dish
    */
-  protected function addIngredientsToDish(Dish $dish,$ingredients)
+  public function configureDish($data, $dishName)
   {
     $now = new \DateTime();
-    foreach($ingredients as $ing){
-      if(!isset($ing->name)){
-        continue;
-      }
-      if($this->ingredientExists($ing->name)){
-        $ingredient = $this->entityManager->getRepository('AppBundle:Ingredient')->findOneBy([
-          'name' => $ing->name
-        ]);
-      }else{
-        $ingredient = new Ingredient();
-        $ingredient->setName($ing->name);
-        $ingredient->setCreatedAt($now);
-        $this->entityManager->persist($ingredient);
-      }
-      $dish->getIngredients()->add($ingredient);
+    $dish = new Dish();
+    $dish->setName($dishName);
+    $dish->setCreatedAt($now);
+    if (isset($data->ingredients)) {
+      $dish = $this->addIngredientsToDish($dish, $data->ingredients);
     }
     return $dish;
   }
 
-  protected function addAllergenToIngredient(Ingredient $ingredient, $allergens)
+  /**
+   * @param \stdClass $data
+   * @param string $ingredientName
+   * @return Ingredient
+   */
+  public function configureIngredient($data, $ingredientName)
   {
     $now = new \DateTime();
-    foreach($allergens as $alg){
-      if(!isset($alg->name)){
-        continue;
-      }
-      if($this->allergenExists($alg->name)){
-        $allergen = $this->entityManager->getRepository('AppBundle:Allergen')->findOneBy([
-          'name' => $alg->name
-        ]);
-      }else{
-        $allergen = new Allergen();
-        $allergen->setCreatedAt($now);
-        $allergen->setName($alg->name);
-        $this->entityManager->persist($allergen);
-      }
-      $ingredient->getAllergens()->add($allergen);
+    $ingredient = new Ingredient();
+    $ingredient->setCreatedAt($now);
+    $ingredient->setName($ingredientName);
+    if (isset($data->allergens)) {
+      $ingredient = $this->addAllergenToIngredient($ingredient, $data->allergens);
     }
-
     return $ingredient;
+  }
 
+  /**
+   * @param string $allergenName
+   * @return Allergen
+   */
+  public function configureAllergen($allergenName)
+  {
+    $now = new \DateTime();
+    $allergen = new Allergen();
+    $allergen->setCreatedAt($now);
+    $allergen->setName($allergenName);
+    return $allergen;
   }
 
   /**
@@ -190,50 +190,47 @@ class RestaurantService
   }
 
   /**
-   * @param \stdClass $data
-   * @param string $dishName
+   * @param Dish $dish
+   * @param \stdClass $ingredients
    * @return Dish
    */
-  protected function configureDish($data, $dishName)
+  protected function addIngredientsToDish(Dish $dish,$ingredients)
   {
-    $now = new \DateTime();
-    $dish = new Dish();
-    $dish->setName($dishName);
-    $dish->setCreatedAt($now);
-    if (isset($data->ingredients)) {
-      $dish = $this->addIngredientsToDish($dish, $data->ingredients);
+    foreach($ingredients as $ing){
+      if(!isset($ing->name)){
+        continue;
+      }
+      if($this->ingredientExists($ing->name)){
+        $ingredient = $this->entityManager->getRepository('AppBundle:Ingredient')->findOneBy([
+          'name' => $ing->name
+        ]);
+      }else{
+        $ingredient = $this->configureIngredient($ing,$ing->name);
+        $this->entityManager->persist($ingredient);
+      }
+      $dish->getIngredients()->add($ingredient);
     }
     return $dish;
   }
 
-  /**
-   * @param \stdClass $data
-   * @param string $ingredientName
-   * @return Ingredient
-   */
-  protected function configureIngredient($data, $ingredientName)
+  protected function addAllergenToIngredient(Ingredient $ingredient, $allergens)
   {
-    $now = new \DateTime();
-    $ingredient = new Ingredient();
-    $ingredient->setCreatedAt($now);
-    $ingredient->setName($ingredientName);
-    if (isset($data->allergens)) {
-      $ingredient = $this->addAllergenToIngredient($ingredient, $data->allergens);
+    foreach($allergens as $alg){
+      if(!isset($alg->name)){
+        continue;
+      }
+      if($this->allergenExists($alg->name)){
+        $allergen = $this->entityManager->getRepository('AppBundle:Allergen')->findOneBy([
+          'name' => $alg->name
+        ]);
+      }else{
+        $allergen = $this->configureAllergen($alg->name);
+        $this->entityManager->persist($allergen);
+      }
+      $ingredient->getAllergens()->add($allergen);
     }
-    return $ingredient;
-  }
 
-  /**
-   * @param string $allergenName
-   * @return Allergen
-   */
-  protected function configureAllergen($allergenName)
-  {
-    $now = new \DateTime();
-    $allergen = new Allergen();
-    $allergen->setCreatedAt($now);
-    $allergen->setName($allergenName);
-    return $allergen;
+    return $ingredient;
   }
 
 }

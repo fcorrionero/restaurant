@@ -70,4 +70,19 @@ class RestaurantServiceTest extends TestCase
     $this->assertEquals(true, $restaurantService->allergenExists('Crustaceo'));
   }
 
+  public function testConfigureDish()
+  {
+    $dish = new \stdClass();
+    $dish->name = "Rice";
+
+    $now = new \DateTime();
+    $newDish = new Dish();
+    $newDish->setName($dish->name);
+    $newDish->setCreatedAt($now);
+
+    $em = $this->createMock(EntityManagerInterface::class);
+    $restaurantService = new RestaurantService($em);
+    $restDish = $restaurantService->configureDish($dish,$dish->name);
+    $this->assertEquals($newDish,$restDish);
+  }
 }
