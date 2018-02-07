@@ -1,5 +1,7 @@
 Restaurante
 ==========
+
+# Lista de peticiones a la API
 Petición | Ejemplo | Respuesta
 ------------ | ------------- | ------------- 
 /allergens/{dish} | /allergens/Macarrones | ```[{"id":1,"name":"gluten"},{"id":2,"name":"lactosa"}]```
