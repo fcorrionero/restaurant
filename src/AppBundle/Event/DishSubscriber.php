@@ -18,6 +18,9 @@ class DishSubscriber implements EventSubscriberInterface
     $this->entityManager = $entityManager;
   }
 
+  /**
+   * @return array
+   */
   public static function getSubscribedEvents()
   {
     return [
@@ -25,6 +28,9 @@ class DishSubscriber implements EventSubscriberInterface
     ];
   }
 
+  /**
+   * @param DishModifiedEvent $event
+   */
   public function onModifyDish(DishModifiedEvent $event)
   {
     $oldDish = $event->getOldDish();
@@ -35,6 +41,11 @@ class DishSubscriber implements EventSubscriberInterface
     $this->addLogEntry($event,$deletedIngredients,$addedIngredients);
   }
 
+  /**
+   * @param Dish $dish1
+   * @param Dish $dish2
+   * @return string
+   */
   protected function getIngredientsDiff(Dish $dish1, Dish $dish2)
   {
     $ingredients1 = $dish1->getIngredients();
@@ -46,6 +57,10 @@ class DishSubscriber implements EventSubscriberInterface
     return $this->getIngredientsIds($ingredients);
   }
 
+  /**
+   * @param ArrayCollection $ingredients
+   * @return string
+   */
   protected function getIngredientsIds(ArrayCollection $ingredients)
   {
     $ids = [];
@@ -55,6 +70,11 @@ class DishSubscriber implements EventSubscriberInterface
     return json_encode($ids);
   }
 
+  /**
+   * @param DishModifiedEvent $event
+   * @param string $deletedIngredients
+   * @param string $addedIngredients
+   */
   protected function addLogEntry(DishModifiedEvent $event, $deletedIngredients, $addedIngredients)
   {
     $chef = $event->getChef();
