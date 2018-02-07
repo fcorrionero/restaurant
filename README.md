@@ -1,7 +1,7 @@
 Restaurante
 ==========
 
-# Lista de peticiones a la API
+## Lista de peticiones a la API
 Petición | Ejemplo | Respuesta
 ------------ | ------------- | ------------- 
 /allergens/{dish} | /allergens/Macarrones | ```[{"id":1,"name":"gluten"},{"id":2,"name":"lactosa"}]```
@@ -11,3 +11,10 @@ Petición | Ejemplo | Respuesta
 /ingredient/new | ```{"name":"Gambas","allergens":[{"name":"marisco"}]}``` | ```{"status":"OK","id":12,"ingredient-name":"Gambas"}```
 | | ```{"name":"Gambas"}``` | ```{"status":"OK","id":12,"ingredient-name":"Gambas"}```
 /allergen/new |  ```{"name":"cacahuete"}"``` | ```{"status":"OK","id":7,"allergen-name":"cacahuete"}```
+
+## Carpetas del proyecto
+Carpeta | Contenido
+------------ | ------------- 
+app/config | Configuraciones (rutas, bbdd, etc)
+src | Código de la aplicación
+test | test automáticos
