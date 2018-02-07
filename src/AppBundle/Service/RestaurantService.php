@@ -89,7 +89,7 @@ class RestaurantService
    * @param $message
    * @return array
    */
-  public function setError($message)
+  public function setError($message = 'Ha ocurrido un error')
   {
     return [
       'status'  => 'Error',

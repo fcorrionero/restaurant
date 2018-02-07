@@ -45,10 +45,10 @@ class ApiController extends Controller
   public function createDishAction(Request $request, RestaurantService $restaurantService)
   {
     $data = json_decode($request->getContent());
-    if(null != $data && json_last_error() === JSON_ERROR_NONE && isset($data->name)){
+    if( $this->dataIsValid($data) ){
       $response = $restaurantService->addDish($data);
     }else{
-      $response = $restaurantService->setError('Debe proporcionar un nombre para el plato');
+      $response = $restaurantService->setError();
     }
     return new JsonResponse($response);
   }
@@ -61,10 +61,10 @@ class ApiController extends Controller
   public function createIngredientAction(Request $request, RestaurantService $restaurantService)
   {
     $data = json_decode($request->getContent());
-    if(null != $data && json_last_error() === JSON_ERROR_NONE && isset($data->name)){
+    if( $this->dataIsValid($data) ){
       $response = $restaurantService->addIngredient($data);
     }else{
-      $response = $restaurantService->setError('Debe proporcionar un nombre para el ingrediente');
+      $response = $restaurantService->setError();
     }
 
     return new JsonResponse($response);
@@ -78,10 +78,10 @@ class ApiController extends Controller
   public function createAllergenAction(Request $request, RestaurantService $restaurantService)
   {
     $data = json_decode($request->getContent());
-    if(null != $data && json_last_error() === JSON_ERROR_NONE && isset($data->name)){
+    if( $this->dataIsValid($data) ){
       $response = $restaurantService->addAllergen($data);
     }else{
-      $response = $restaurantService->setError('Debe proporcionar un nombre para el ingrediente');
+      $response = $restaurantService->setError();
     }
 
     return new JsonResponse($response);
@@ -96,6 +96,11 @@ class ApiController extends Controller
     // $event = new DishModifiedEvent($oldDish,$newDish)
     // $dispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
     // $dispatcher->dispatch(DishModifiedEvent::NAME, $event)
+  }
+
+  protected function dataIsValid($data)
+  {
+    return null != $data && json_last_error() === JSON_ERROR_NONE && isset($data->name);
   }
 
 }
