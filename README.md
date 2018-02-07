@@ -7,6 +7,11 @@ es bastante potente y robusto.
 Este framework permite un desarrollo modular separando claramente las partes de la aplicación como son las Entidades, Lógica,
 Controladores, etc. El ORM de Symfony (Doctrine) permite también abstraerse del tipo de bbdd utilizada. En este caso se ha empleado mysql, el esquema de 
 la misma se encuentra en el fichero schema.sql.
+
+### Comentarios al código
+Las respuestas a las peticiones se generan en el controlador de la aplicación ApiController. La lógica principal en el servicio RestaurantService donde
+se realizan las principales operaciones relacionadas con el manejo de las entidades. Se han creado tres entidades para representar los principales objetos
+de la base de datos y dos repositorios para ejecutar operaciones específicas sobre ellas, en este caso búsquedas.
  
 
 ### Registro de cambios sobre los platos
@@ -28,4 +33,9 @@ Carpeta | Contenido
 ------------ | ------------- 
 app/config | Configuraciones (rutas, bbdd, etc)
 src | Código de la aplicación
+src/Controller | Controladores
+src/Entity | Entidades
+src/Event | Eventos y EventSubscribers
+src/Repository | Repositorio de las entidades
+src/Service | Servicios de la aplicación
 test | test automáticos
