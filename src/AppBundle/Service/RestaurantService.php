@@ -18,7 +18,6 @@ class RestaurantService
     $this->entityManager = $entityManager;
   }
 
-
   /**
    * @param \stdClass $data
    * @return array
@@ -27,7 +26,7 @@ class RestaurantService
   {
     $dishName = $data->name;
 
-    if( $this->dishExists($dishName) ){
+    if( null !== $this->dishExists($dishName) ){
       return $this->setError('El plato ya existe');
     }
 
@@ -49,7 +48,7 @@ class RestaurantService
   public function addIngredient($data)
   {
     $ingredientName = $data->name;
-    if( $this->ingredientExists($ingredientName) ){
+    if( null !== $this->ingredientExists($ingredientName) ){
       return $this->setError('El ingrediente ya existe');
     }
 
@@ -71,8 +70,8 @@ class RestaurantService
   public function addAllergen($data)
   {
     $allergenName = $data->name;
-    if( $this->allergenExists($allergenName) ){
-      return $this->setError('El ingrediente ya existe');
+    if( null !== $this->allergenExists($allergenName) ){
+      return $this->setError('El alergeno ya existe');
     }
 
     $allergen = $this->configureAllergen($allergenName);
@@ -146,47 +145,35 @@ class RestaurantService
 
   /**
    * @param $ingredientName
-   * @return bool
+   * @return mixed
    */
   public function ingredientExists($ingredientName)
   {
-    $ingredient = $this->entityManager->getRepository('AppBundle:Ingredient')->findOneBy([
+    return $this->entityManager->getRepository('AppBundle:Ingredient')->findOneBy([
       'name' => $ingredientName
     ]);
-    if( null != $ingredient){
-      return true;
-    }
-    return false;
   }
 
   /**
    * @param string $allergenName
-   * @return bool
+   * @return mixed
    */
   public function allergenExists($allergenName)
   {
-    $allergen = $this->entityManager->getRepository('AppBundle:Allergen')->findOneBy([
+    return $this->entityManager->getRepository('AppBundle:Allergen')->findOneBy([
       'name' => $allergenName
     ]);
-    if( null != $allergen){
-      return true;
-    }
-    return false;
   }
 
   /**
    * @param string $dishName
-   * @return bool
+   * @return mixed
    */
   public function dishExists($dishName)
   {
-    $dish = $this->entityManager->getRepository('AppBundle:Dish')->findOneBy([
+    return $this->entityManager->getRepository('AppBundle:Dish')->findOneBy([
       'name' => $dishName
     ]);
-    if( null != $dish){
-      return true;
-    }
-    return false;
   }
 
   /**
@@ -226,11 +213,8 @@ class RestaurantService
       if(!isset($ing->name)){
         continue;
       }
-      if($this->ingredientExists($ing->name)){
-        $ingredient = $this->entityManager->getRepository('AppBundle:Ingredient')->findOneBy([
-          'name' => $ing->name
-        ]);
-      }else{
+      $ingredient = $this->ingredientExists($ing->name);
+      if(null == $ingredient){
         $ingredient = $this->configureIngredient($ing,$ing->name);
         $this->entityManager->persist($ingredient);
       }
@@ -250,11 +234,8 @@ class RestaurantService
       if(!isset($alg->name)){
         continue;
       }
-      if($this->allergenExists($alg->name)){
-        $allergen = $this->entityManager->getRepository('AppBundle:Allergen')->findOneBy([
-          'name' => $alg->name
-        ]);
-      }else{
+      $allergen = $this->allergenExists($alg->name);
+      if(null == $allergen){
         $allergen = $this->configureAllergen($alg->name);
         $this->entityManager->persist($allergen);
       }

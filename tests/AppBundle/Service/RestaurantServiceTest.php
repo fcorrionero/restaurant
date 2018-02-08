@@ -29,45 +29,45 @@ class RestaurantServiceTest extends TestCase
       ->willReturn($dishRepository);
 
     $restaurantService = new RestaurantService($em);
-    $this->assertEquals(true, $restaurantService->dishExists('Cocido'));
+    $this->assertEquals($dish, $restaurantService->dishExists('Cocido'));
   }
 
   public function testIngredientExists()
   {
-    $dish = new Ingredient();
-    $dish->setName('Pollo');
+    $ingredient = new Ingredient();
+    $ingredient->setName('Pollo');
 
     $em = $this->createMock(EntityManagerInterface::class);
-    $dishRepository = $this->createMock(ObjectRepository::class);
-    $dishRepository->expects($this->any())
+    $ingredientRepository = $this->createMock(ObjectRepository::class);
+    $ingredientRepository->expects($this->any())
       ->method('findOneBy')
-      ->willReturn($dish);
+      ->willReturn($ingredient);
 
     $em->expects($this->any())
       ->method('getRepository')
-      ->willReturn($dishRepository);
+      ->willReturn($ingredientRepository);
 
     $restaurantService = new RestaurantService($em);
-    $this->assertEquals(true, $restaurantService->ingredientExists('Pollo'));
+    $this->assertEquals($ingredient, $restaurantService->ingredientExists('Pollo'));
   }
 
   public function testAllergenExists()
   {
-    $dish = new Allergen();
-    $dish->setName('Crustaceo');
+    $allergen = new Allergen();
+    $allergen->setName('Crustaceo');
 
     $em = $this->createMock(EntityManagerInterface::class);
-    $dishRepository = $this->createMock(ObjectRepository::class);
-    $dishRepository->expects($this->any())
+    $allergenRepository = $this->createMock(ObjectRepository::class);
+    $allergenRepository->expects($this->any())
       ->method('findOneBy')
-      ->willReturn($dish);
+      ->willReturn($allergen);
 
     $em->expects($this->any())
       ->method('getRepository')
-      ->willReturn($dishRepository);
+      ->willReturn($allergenRepository);
 
     $restaurantService = new RestaurantService($em);
-    $this->assertEquals(true, $restaurantService->allergenExists('Crustaceo'));
+    $this->assertEquals($allergen, $restaurantService->allergenExists('Crustaceo'));
   }
 
   public function testConfigureDish()
