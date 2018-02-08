@@ -2,24 +2,17 @@ Restaurante
 ==========
 
 ### Tecnología empleada
-He utilizado un framework de PHP ya que permite acelerar el proceso de desarrollo. En este caso he utlizado Symfony pues
-es bastante potente y robusto.
-Este framework permite un desarrollo modular separando claramente las partes de la aplicación como son las Entidades, Lógica,
-Controladores, etc. El ORM de Symfony (Doctrine) permite también abstraerse del tipo de bbdd utilizada. En este caso se ha empleado mysql, el esquema de 
-la misma se encuentra en el fichero schema.sql.
+En este proyecto he utilizado el framework de PHP Symfony ya que es bastante potente y robusto además de permitir acelerar el proceso de desarrollo. Este framework permite un desarrollo modular separando claramente las partes de la aplicación como son las Entidades, Lógica, Controladores, etc. El ORM de Symfony (Doctrine) permite también abstraerse del tipo de bbdd utilizada. En este caso se ha empleado mysql, el esquema de la misma se encuentra en el fichero schema.sql.
 
 ### Comentarios al código
-Las respuestas a las peticiones se generan en el controlador de la aplicación ApiController. La lógica principal en el servicio RestaurantService donde
-se realizan las principales operaciones relacionadas con el manejo de las entidades. Se han creado tres entidades para representar los principales objetos
-de la base de datos y dos repositorios para ejecutar operaciones específicas sobre ellas, en este caso búsquedas.
+Las respuestas a las peticiones se generan en el controlador de la aplicación ApiController. La lógica principal en el servicio RestaurantService dondese realizan las principales operaciones relacionadas con el manejo de las entidades. Se han creado tres entidades para representar los principales objetos de la base de datos y dos repositorios para ejecutar operaciones específicas sobre ellas, en este caso búsquedas.
  
 
 ### Registro de cambios sobre los platos
 Para el registro de cambios he usado el sistema de eventos que proporciona Symfony. Al modificar un plato se lanza un evento `dish.modified` que es recogido por la clase DishSubscriber.  El registro de los cambios se guarda en una tabla de log con los ids de los ingredientes añadidos y/o borrados del plato.
 
 ### Lista de peticiones a la API
-Para las consultas sobre un plato/alérgeno he empleado los nombres en lugar de los ids por comodidad a la hora de hacer las pruebas,
-en una aplicación real habría que emplear los ids de los platos/alérgenos que nos proporcionase la aplicación de los camareros.
+Para las consultas sobre un plato/alérgeno he empleado los nombres en lugar de los ids por comodidad a la hora de hacer las pruebas, en una aplicación real habría que emplear los ids de los platos/alérgenos que nos proporcionase la aplicación de los camareros.
 
 Petición | Ejemplo | Respuesta
 ------------ | ------------- | ------------- 
