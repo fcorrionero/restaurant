@@ -81,6 +81,9 @@ class ApiController extends Controller
     return new JsonResponse($response);
   }
 
+  /**
+   * @param Request $request
+   */
   public function modifyDishAction(Request $request)
   {
     // Logic to get old dish data and change it
@@ -90,6 +93,11 @@ class ApiController extends Controller
     // $event = new DishModifiedEvent($oldDish,$newDish)
     // $dispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
     // $dispatcher->dispatch(DishModifiedEvent::NAME, $event)
+  }
+
+  public function welcomeAction()
+  {
+    return new JsonResponse(['Welcome']);
   }
 
   protected function dataIsValid($data)
