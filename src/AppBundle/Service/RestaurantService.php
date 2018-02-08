@@ -239,6 +239,11 @@ class RestaurantService
     return $dish;
   }
 
+  /**
+   * @param Ingredient $ingredient
+   * @param \stdClass $allergens
+   * @return Ingredient
+   */
   protected function addAllergenToIngredient(Ingredient $ingredient, $allergens)
   {
     foreach($allergens as $alg){
